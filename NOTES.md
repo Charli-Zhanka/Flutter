@@ -18,3 +18,8 @@
 - Provider.of without passing `listen: false`.
 - To fix, write:
 - Provider.of<Cart>(context, listen: false);
+
+
+## Level 4: Scope
+- Badge rebuilds, 3 presses of + with context.watch: 3
+- Badge rebuilds, 3 presses of + with context.select: 0
