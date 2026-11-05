@@ -23,3 +23,9 @@
 ## Level 4: Scope
 - Badge rebuilds, 3 presses of + with context.watch: 3
 - Badge rebuilds, 3 presses of + with context.select: 0
+
+## Where does it live?
+- The cart: provided. The badge, books screen and cart screen all need it, so it is a ChangeNotifier above MaterialApp.
+- Search text: ephemeral. Only the Books screen uses it, so it stays in that screen's State.
+- Total expanded or collapsed: ephemeral. Only one widget needs it, so it is a bool in its own State.
+- Theme mode: provided. MaterialApp reads it at the top and a switch somewhere else changes it, so it must live above both.

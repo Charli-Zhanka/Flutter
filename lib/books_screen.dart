@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'cart_badge.dart';
 import 'models/book.dart';
 import 'models/cart.dart';
 
-class BooksScreen extends StatelessWidget {
+class BooksScreen extends StatefulWidget {
   const BooksScreen({super.key});
+
+  @override
+  State<BooksScreen> createState() => _BooksScreenState();
+}
+
+class _BooksScreenState extends State<BooksScreen> {
+  String _query = '';
 
   @override
   Widget build(BuildContext context) {
     debugPrint('BooksScreen build');
+    final shown = books
+        .where((b) => b.title.toLowerCase().contains(_query.toLowerCase()))
+        .toList();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Books'),
+        title: TextField(
+          decoration: const InputDecoration(
+            hintText: 'Search',
+            border: InputBorder.none,
+          ),
+          onChanged: (v) => setState(() => _query = v),
+        ),
         actions: const [CartBadge()],
       ),
       body: ListView.builder(
-        itemCount: books.length,
-        itemBuilder: (context, i) => _BookRow(books[i]),
+        itemCount: shown.length,
+        itemBuilder: (context, i) => _BookRow(shown[i]),
       ),
     );
   }
@@ -38,9 +55,19 @@ class _BookRow extends StatelessWidget {
       trailing: added
           ? const Text('Added')
           : OutlinedButton(
-        onPressed: () => context.read<Cart>().add(book),
-        child: const Text('Add'),
-      ),
+              onPressed: () {
+                final ok = context.read<Cart>().add(book);
+                if (ok) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Added'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
     );
   }
 }
