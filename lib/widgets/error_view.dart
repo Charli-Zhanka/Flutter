@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+
+class ErrorView extends StatelessWidget {
+  final VoidCallback onRetry;
+  const ErrorView({super.key, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Could not load students'),
+          const SizedBox(height: 16),
+          ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
+        ],
+      ),
+    );
+  }
+}
